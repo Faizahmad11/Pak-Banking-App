@@ -6,12 +6,11 @@ const AuthMiddleware = require('../../middleware/AuthMiddleware');
 const router = express.Router();
 
 router.route("/login")
-    .post(AuthValidation.loginUser,ValidationMiddleware,AuthController.loginUser)
+  .post(AuthValidation.loginUser, ValidationMiddleware, AuthController.loginUser);
 
 router.route("/register")
-    .post(AuthValidation.registerUser,ValidationMiddleware,AuthController.registerUser)
+  .post(AuthValidation.registerUser, ValidationMiddleware, AuthController.registerUser);
 
-  router.route("/profile")
-  .get(AuthMiddleware,AuthController.profileUser);
-
+router.route("/profile")
+  .get(AuthMiddleware, AuthController.profileUser);
 module.exports = router;

@@ -1,15 +1,23 @@
-const ApiError = require("../utils/ApiError")
+// 404 handler middleware
+const notFoundHandler = (req, res, next) => {
+  const error = new Error(`Not Found - ${req.originalUrl}`);
+  error.statusCode = 404;
+  next(error);
+};
 
-const NotFoundError=(err,req,res,next)=>{
-    const error_obj = {
-        code:500,
-        msg:err.message,
-        stack:err.stack
-    }
-    if(err instanceof ApiError){
-        error_obj.code = err.statusCode
-    }
+// Global Error Handler
+const errorHandler = (err, req, res, next) => {
+  console.error("ERROR:", err);
 
-    res.status(error_obj.code).send(error_obj) 
-}
-module.exports = NotFoundError
+  res.status(err.statusCode || 500).json({
+    success: false,
+    message: err.message,
+    statusCode: err.statusCode || 500,
+    stack: process.env.NODE_ENV === "production" ? undefined : err.stack,
+  });
+};
+
+module.exports = {
+  notFoundHandler,
+  errorHandler,
+};

@@ -1,30 +1,19 @@
 const jwt = require("jsonwebtoken");
 
-const jwt_secret = "!@#$$%^&*()*&^%$#@!";
+const secret = process.env.JWT_SECRET || "secret_key";
 
 class JwtService {
-  
-  static generateToken(user) {
-    const token = jwt.sign(
-      { user },
-      jwt_secret,
-      {
-        algorithm: "HS256",
-        expiresIn: "1d",
-      }
-    );
 
-    return token;
+  static generateToken(payload) {
+    return jwt.sign(payload, secret, {
+      expiresIn: "1d",
+      algorithm: "HS256"
+    });
   }
 
-  static ValidateToken(token) {
-     const data = jwt.verify(token, jwt_secret,
-        {
-            algorithms: ["HS256"],
-        }
-);
-    return data;
-}
+  static validateToken(token) {
+    return jwt.verify(token, secret);
+  }
 }
 
-module.exports = JwtService;    
+module.exports = JwtService;
