@@ -24,3 +24,6 @@ pnpm-debug.log*
 
 # coverage
 coverage/
+
+# prevent nested git repos
+*/.git
