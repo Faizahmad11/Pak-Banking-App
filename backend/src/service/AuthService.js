@@ -2,6 +2,9 @@ const User = require("../models/User.models");
 const bcryptjs = require("bcryptjs");
 const ApiError = require("../utils/ApiError");
 const JwtService = require("../utils/JwtService");
+const { AccountModel } = require("../models/Account.model");
+const { TransactionModel } = require("../models/Transactions.model");
+
 console.log("USER MODEL:", User);
 
 class AuthService {
@@ -55,13 +58,44 @@ class AuthService {
     return { msg: "Register success", token, user };
   }
 
-  static async profileUser(userId) {
-  const user = await User.findById(userId).select("-password")
+ static async profileUser(userId) {
 
-    if (!user) throw new ApiError(404, "User not found");
+    const user = await User.findById(userId).select("-password");
 
-    return user;
-  }
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    const profile_obj = {};
+
+    let account = await AccountModel.findOne({
+        user: userId,
+    });
+
+    if (!account) {
+
+        account = await AccountModel.create({
+            user: userId,
+            amount: 0,
+        });
+
+        await TransactionModel.create({
+            account: account._id,
+            amount: 0,
+            type: "credit",
+            isSuccess: true,
+            remark: "Account Opening!",
+        });
+    }
+
+    profile_obj.account_no = account._id;
+    profile_obj.amount = account.amount;
+
+    return {
+        ...user.toObject(),
+        ...profile_obj,
+    };
+}
 }
 
 module.exports = AuthService;

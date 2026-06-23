@@ -39,6 +39,7 @@ class AuthController {
     const userId = req.user._id;
 
     const res_obj = await AuthService.profileUser(userId);
+    
 
     res.status(200).json({
       success: true,
