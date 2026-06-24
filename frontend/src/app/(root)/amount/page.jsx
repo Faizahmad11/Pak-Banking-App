@@ -3,6 +3,8 @@
 import AddAmountModel from '@/components/Amount/AddAmountModel'
 import HeaderName from '@/components/HeaderName'
 import { useMainContext } from '@/context/MainContext'
+import { FaRupeeSign } from "react-icons/fa6";
+
 import React from 'react'
 
 const AmountPage = () => {
@@ -22,8 +24,8 @@ console.log("ACCOUNT NO:", user?.account_no);
   {user?.account_no}
 </p>
 
-<p className='text-3xl'>
-  Total Amount : {user?.amount ?? 0}/-
+<p className='text-3xl flex gap-2 font-semibold'>
+  Total Amount : <span className='font-semibold justify-center'><FaRupeeSign /></span> {user?.amount ?? 0}/-
 </p>
       </div>
       <AddAmountModel/>
