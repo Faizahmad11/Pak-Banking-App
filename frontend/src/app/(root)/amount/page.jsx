@@ -28,7 +28,7 @@ console.log("ACCOUNT NO:", user?.account_no);
   Total Amount : <span className='font-semibold justify-center'><FaRupeeSign /></span> {user?.amount ?? 0}/-
 </p>
       </div>
-      <AddAmountModel/>
+      <AddAmountModel  id={user.accpony_no}/>
       
       </div>
     </div>

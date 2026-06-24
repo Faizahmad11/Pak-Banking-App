@@ -11,7 +11,7 @@ import { Formik, Field } from "formik";
 import { toast } from 'react-toastify'
 import { loadScript } from '@/utils/loadScript'
 import { checkout_url } from '@/utils/constant'
-export default function AddAmountModel() {
+export default function AddAmountModel(id) {
   let [isOpen, setIsOpen] = useState(false)
 const intial_state={
     amount:""
